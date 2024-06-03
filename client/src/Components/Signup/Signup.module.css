@@ -49,10 +49,35 @@ button {
   border: 0;
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
 }
-.inputContainer input{
-    padding-inline-start: 1rem;
+.inputContainer input {
+  padding-inline-start: 1rem;
 }
 
-.inputContainer button{
-    cursor: pointer;
+.inputContainer button {
+  cursor: pointer;
+}
+
+.passwordContainer {
+  position: relative;
+  /* width: 300px; */
+}
+
+.passwordContainer input {
+  width: 100%;
+  border-radius: 2rem;
+  outline: 0;
+  border: 0;
+  height: 48px;
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+.passwordContainer button {
+  position: absolute;
+  border-radius: 0;
+  background-color: white;
+  box-shadow: none;
+  cursor: pointer;
+  top: 13px;
+  right: 8px;
+  height: 20px;
 }

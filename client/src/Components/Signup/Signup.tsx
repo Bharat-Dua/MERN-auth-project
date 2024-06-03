@@ -10,6 +10,11 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
+  const [show, setShow] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShow(!show);
+  };
   function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
     const { name, value } = event.target;
     // console.log(name, value);
@@ -36,9 +41,9 @@ const Signup = () => {
 
     toast.success("Form Submitted");
 
-    console.log(userDetails);
-    console.log(emailRegex.test(userDetails.email), userDetails.email);
-    console.log(passwordRegex.test(userDetails.password), userDetails.password);
+    // console.log(userDetails);
+    // console.log(emailRegex.test(userDetails.email), userDetails.email);
+    // console.log(passwordRegex.test(userDetails.password), userDetails.password);
   };
   return (
     <div className={styles.container}>
@@ -59,13 +64,18 @@ const Signup = () => {
             name="email"
             placeholder="Enter your email..."
           />
-          <input
-            type="password"
-            value={userDetails.password}
-            onChange={handleInputChange}
-            name="password"
-            placeholder="Enter your password..."
-          />
+          <div className={styles.passwordContainer}>
+            <input
+              type={show ? "text" : "password"}
+              value={userDetails.password}
+              onChange={handleInputChange}
+              name="password"
+              placeholder="Enter your password..."
+            />
+            <button onClick={togglePasswordVisibility}>
+              {show ? "Hide" : "Show"}
+            </button>
+          </div>
           <button onClick={handleSignUp}>Sign up</button>
         </div>
         <span>

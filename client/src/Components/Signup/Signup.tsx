@@ -3,6 +3,7 @@ import React, { useState, ChangeEvent } from "react";
 import styles from "./Signup.module.css";
 import { Link } from "react-router-dom";
 import { emailRegex, passwordRegex } from "../../Utils/RegEx";
+import toast from "react-hot-toast";
 const Signup = () => {
   const [userDetails, setUserDetail] = useState({
     username: "",
@@ -17,9 +18,27 @@ const Signup = () => {
   }
 
   const handleSignUp = () => {
+    if (!userDetails.username) {
+      toast.error("Please enter a valid username");
+    }
+
+    if (!emailRegex.test(userDetails.email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    if (!passwordRegex.test(userDetails.password)) {
+      toast.error(
+        "Password must be at least 8 characters long and must include at least one special character and number"
+      );
+      return;
+    }
+
+    toast.success("Form Submitted");
+
     console.log(userDetails);
-    console.log(emailRegex.test(userDetails.email),userDetails.email)
-    console.log(passwordRegex.test(userDetails.password),userDetails.password)
+    console.log(emailRegex.test(userDetails.email), userDetails.email);
+    console.log(passwordRegex.test(userDetails.password), userDetails.password);
   };
   return (
     <div className={styles.container}>

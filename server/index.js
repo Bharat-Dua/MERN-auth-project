@@ -11,7 +11,7 @@ app.use(express.json());
 // app.get("/test", (req, res) => {
 //   res.status(200).json({ test: "success" });
 // });
-app.use("/user",require("./User-Routes/User-Routes.js"))
+app.use("/user", require("./User-Routes/User-Routes.js"));
 const port = process.env.PORT || 5000;
 app.listen(port, async () => {
   await connect_DB();

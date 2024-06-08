@@ -36,25 +36,46 @@ const register = async (req, res) => {
         expires: expires,
       },
     });
-    console.log(newUser);
-    console.log(req.body);
+    // console.log(newUser);
+    // console.log(req.body);
     await newUser.save();
     const emailBody = `<p>Please click on the link to verify your account, <b>http://localhost:3000/user/verify/${verificationToken}</b></p>`;
     const subject = "verification email";
     await sendEmail({ email, subject, emailBody });
-    res.status(201).json({ message: "user saved successfully" });
+    return res.status(201).json({ message: "user saved successfully" });
   } catch (error) {
-    res.status(500).json({ message: "An error occurred", error });
+    return res.status(500).json({ message: "An error occurred", error });
   }
 };
 
 const login = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     res.status(200).json("login");
   } catch (error) {
     res.json("error login ", error);
   }
 };
 
-module.exports = { register, login };
+const verifyUser = async (req, res) => {
+  try {
+    // console.log(req.params);
+    const { token } = req.params;
+    const isTokenValid = await UserModel.findOne({
+      "verificationToken.token": token,
+      "verificationToken.expires": { $gt: new Date() },
+    });
+    console.log(isTokenValid);
+
+    if (!isTokenValid) {
+      return res.status(400).json({ message: "Token invalid or expired" });
+    }
+
+    isTokenValid.isVerified = true;
+    await isTokenValid.save();
+    res.send("Account verified successfully");
+  } catch (error) {
+    console.log(error);
+  }
+};
+module.exports = { register, login, verifyUser };

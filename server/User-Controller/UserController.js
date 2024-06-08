@@ -1,6 +1,8 @@
 const UserModel = require("../Models/UserModel");
 const otp_Generator = require("otp-generator");
 const bcrypt = require("bcrypt");
+const sendEmail = require("../Email Service/sendEmail");
+
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -37,6 +39,9 @@ const register = async (req, res) => {
     console.log(newUser);
     console.log(req.body);
     await newUser.save();
+    const emailBody = `<p>Please click on the link to verify your account, <b>http://localhost:3000/user/verify/${verificationToken}</b></p>`;
+    const subject = "verification email";
+    await sendEmail({ email, subject, emailBody });
     res.status(201).json({ message: "user saved successfully" });
   } catch (error) {
     res.status(500).json({ message: "An error occurred", error });
